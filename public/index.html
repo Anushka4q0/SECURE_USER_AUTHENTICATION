@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Secure Auth System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #59a5cf, #e780bf);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .container, .students-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 500px;
+      display: none;
+    }
+
+    h2, h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #667eea;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #5a67d8;
+    }
+
+    .toggle {
+      text-align: center;
+      margin-top: 1rem;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .question-list {
+      text-align: left;
+      margin-top: 1rem;
+    }
+
+    .question-list li {
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Auth Container -->
+  <div class="container" id="auth-container">
+    <h2 id="form-title">Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="handleAuth()" id="auth-btn">Login</button>
+    <p class="toggle" onclick="toggleForm()">Don't have an account? <b>Register</b></p>
+  </div>
+
+  <!-- Students Container -->
+  <div class="students-container" id="students-page">
+    <h1>Welcome to the Web Development Study Hub!</h1>
+<p>Review the following questions to sharpen your understanding:</p>
+<ol class="question-list">
+  <li>What is the purpose of the Document Object Model (DOM) in web development?</li>
+  <li>How do CSS Flexbox and Grid differ in layout design?</li>
+  <li>What is the role of promises and async/await in JavaScript?</li>
+  <li>Explain how RESTful APIs work and how they are used in web applications.</li>
+  <li>What are some best practices for optimizing website performance?</li>
+</ol>
+
+  </div>
+
+  <script>
+    let isLogin = true;
+    const users = {};
+
+    // Show login page on load
+    document.getElementById('auth-container').style.display = 'block';
+
+    function toggleForm() {
+      isLogin = !isLogin;
+      document.getElementById('form-title').textContent = isLogin ? 'Login' : 'Register';
+      document.getElementById('auth-btn').textContent = isLogin ? 'Login' : 'Register';
+      document.querySelector('.toggle').textContent = isLogin
+        ? "Don't have an account? Register"
+        : 'Already have an account? Login';
+    }
+
+    function hashPassword(password) {
+      return btoa(password.split('').reverse().join(''));
+    }
+
+    function handleAuth() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        alert('Please fill in all fields');
+        return;
+      }
+
+      const hashed = hashPassword(password);
+
+      if (isLogin) {
+        if (users[username] && users[username] === hashed) {
+          sessionStorage.setItem('authenticated', true);
+          showStudentPage();
+        } else {
+          alert('Invalid credentials');
+        }
+      } else {
+        if (users[username]) {
+          alert('User already exists');
+        } else {
+          users[username] = hashed;
+          alert('Registration successful! You can now login.');
+          toggleForm();
+        }
+      }
+    }
+
+    function showStudentPage() {
+      document.getElementById('auth-container').style.display = 'none';
+      document.getElementById('students-page').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

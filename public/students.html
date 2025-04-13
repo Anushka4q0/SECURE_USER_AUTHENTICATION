@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Students Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      padding: 2rem;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: white;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    ul {
+      margin-top: 1rem;
+      background: white;
+      color: black;
+      padding: 1rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    li {
+      margin-bottom: 0.75rem;
+    }
+    button {
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 1rem;
+      background-color: #ff5c5c;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    button:hover {
+      background-color: #e55353;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Students Group!</h1>
+  <p>Here are some questions to help you prepare for the exam:</p>
+  <ul>
+    <li>1. Explain the concept of closures in JavaScript.</li>
+    <li>2. What is the difference between == and === in JavaScript?</li>
+    <li>3. Describe the lifecycle methods in React.</li>
+    <li>4. What is normalization in databases?</li>
+    <li>5. How does the HTTP protocol work?</li>
+  </ul>
+
+  <!-- Logout Button -->
+  <button onclick="logout()">Logout</button>
+
+  <script>
+    // Check if user is authenticated
+    if (!sessionStorage.getItem('authenticated')) {
+      window.location.href = 'index.html';
+    }
+
+    // Logout function
+    function logout() {
+      sessionStorage.removeItem('authenticated');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
